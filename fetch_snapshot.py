@@ -32,15 +32,13 @@ lines = []
 lines.append("# A股指数快照（自动更新）\n")
 lines.append(f"更新时间：{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
 lines.append("\n| 指数 | 当前点位 | 涨跌幅 |\n|------|-----------|--------|")
+html_table = "<br>".join(lines)
+verify_code = "<p>🚀 系统验证口令：我是小白龙GPT</p>"
 
 for name, code in indices.items():
     price, pct = fetch_index(code)
     print(f"{name}: {price} / {pct}")
     lines.append(f"| {name} | {price} | {pct} |")
-
-# 将 Markdown 转为 HTML 表格（简化处理）
-html_table = "<br>".join(lines)
-verify_code = "<p>🚀 系统验证口令：我是小白龙GPT</p>"
 
 # 构建 HTML 页面内容
 final_html = f"""
