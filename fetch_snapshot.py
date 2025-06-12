@@ -1,7 +1,6 @@
 import requests
 from datetime import datetime
 
-# 指数代码映射
 indices = {
     "上证指数": "sh000001",
     "深证成指": "sz399001",
@@ -12,7 +11,6 @@ indices = {
     "北证50": "bj899050"
 }
 
-# 抓取函数
 def fetch_index(code):
     url = f"https://qt.gtimg.cn/q={code}"
     try:
@@ -27,26 +25,24 @@ def fetch_index(code):
         print(f"错误：{code} 抓取失败 - {e}")
         return "获取失败", "--"
 
-# 生成 Markdown 表格数据
+# 生成 Markdown 表格格式
 lines = []
-lines.append("# A股指数快照（自动更新）\n")
-lines.append(f"更新时间：{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
-lines.append("\n| 指数 | 当前点位 | 涨跌幅 |\n|------|-----------|--------|")
-html_table = "<br>".join(lines)
-verify_code = "<p>🚀 系统验证口令：我是小白龙GPT</p>"
+lines.append("| 指数 | 当前点位 | 涨跌幅 |")
+lines.append("|------|-----------|--------|")
 
 for name, code in indices.items():
     price, pct = fetch_index(code)
-    print(f"{name}: {price} / {pct}")
     lines.append(f"| {name} | {price} | {pct} |")
 
-# 构建 HTML 页面内容
+html_table = "\n".join(lines)
+verify_code = "<p>🚀 系统验证口令：我是小白龙GPT</p>"
+
+# 构造 HTML 页面
 final_html = f"""
 <!DOCTYPE html>
 <html lang="zh">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>A股指数快照</title>
     <style>
         body {{
@@ -63,12 +59,12 @@ final_html = f"""
 <body>
     <h1>A股指数快照（自动更新）</h1>
     <p>更新时间：{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}</p>
-    <p>🚀 系统验证口令：我是小白龙GPT</p>
-    {html_table}
+    {verify_code}
+    <pre style="line-height: 1.6">{html_table}</pre>
 </body>
 </html>
 """
 
-# 写入 index.html（供 GitHub Pages 展示）
+# 写入 index.html（GitHub Pages 使用）
 with open("index.html", "w", encoding="utf-8") as f:
     f.write(final_html)
