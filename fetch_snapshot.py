@@ -1,6 +1,7 @@
 import requests
 from datetime import datetime
 
+# 指数代码映射
 indices = {
     "上证指数": "sh000001",
     "深证成指": "sz399001",
@@ -11,6 +12,7 @@ indices = {
     "北证50": "bj899050"
 }
 
+# 抓取函数
 def fetch_index(code):
     url = f"https://qt.gtimg.cn/q={code}"
     try:
@@ -25,6 +27,7 @@ def fetch_index(code):
         print(f"错误：{code} 抓取失败 - {e}")
         return "获取失败", "--"
 
+# 生成 Markdown 表格数据
 lines = []
 lines.append("# A股指数快照（自动更新）\n")
 lines.append(f"更新时间：{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
@@ -35,11 +38,10 @@ for name, code in indices.items():
     print(f"{name}: {price} / {pct}")
     lines.append(f"| {name} | {price} | {pct} |")
 
-from datetime import datetime
+# 将 Markdown 转为 HTML 表格（简化处理）
+html_table = "<br>".join(lines)
 
-# 假设你已经生成了 data 表格 markdown 形式，如 final_md
-
-# 生成 HTML 页面内容（index.html）
+# 构建 HTML 页面内容
 final_html = f"""
 <!DOCTYPE html>
 <html lang="zh">
@@ -49,7 +51,7 @@ final_html = f"""
     <title>A股指数快照</title>
     <style>
         body {{
-            font-family: "SF Pro SC", "Segoe UI", sans-serif;
+            font-family: "Segoe UI", sans-serif;
             background-color: #f7f9fa;
             color: #333;
             padding: 2em;
@@ -57,26 +59,13 @@ final_html = f"""
         h1 {{
             color: #005aa7;
         }}
-        table {{
-            border-collapse: collapse;
-            width: 100%;
-            margin-top: 1em;
-        }}
-        th, td {{
-            border: 1px solid #ccc;
-            padding: 0.5em 1em;
-            text-align: center;
-        }}
-        th {{
-            background-color: #eaeaea;
-        }}
     </style>
 </head>
 <body>
     <h1>A股指数快照（自动更新）</h1>
     <p>更新时间：{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}</p>
     <p>🚀 系统验证口令：我是小白龙GPT</p>
-    {final_md.replace('\n', '<br>')}
+    {html_table}
 </body>
 </html>
 """
