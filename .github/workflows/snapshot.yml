@@ -2,7 +2,7 @@ name: Fetch A-share Indices Daily
 
 on:
   schedule:
-    - cron: '44 6 * * 1-5'  # 每周一到周五 UTC时间6:44 = 北京时间14:44
+    - cron: '42 6 * * 1-5'  # 每周一到周五 UTC时间6:40 = 北京时间14:40
   workflow_dispatch:
 
 jobs:
