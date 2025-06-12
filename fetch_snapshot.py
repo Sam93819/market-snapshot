@@ -83,3 +83,6 @@ final_html = f"""
 # 写入 index.html（供 GitHub Pages 展示）
 with open("index.html", "w", encoding="utf-8") as f:
     f.write(final_html)
+
+<p>🚀 系统验证口令：我是小白龙GPT</p>
+
