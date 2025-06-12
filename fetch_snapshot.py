@@ -1,7 +1,6 @@
 import requests
 from datetime import datetime
 
-# 指数代码映射（来自腾讯接口）
 indices = {
     "上证指数": "sh000001",
     "深证成指": "sz399001",
@@ -19,14 +18,13 @@ def fetch_index(code):
         raw = res.text.split('~')
         price = raw[3]
         pct_chg = raw[5]
-        # 加上符号 +/-
         if not pct_chg.startswith("-"):
             pct_chg = f"+{pct_chg}"
         return price, pct_chg
     except:
         return "获取失败", "--"
 
-# 开始生成 Markdown 内容
+# 生成 Markdown
 lines = []
 lines.append("# A股指数快照（自动更新）\n")
 lines.append(f"更新时间：{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
@@ -37,6 +35,5 @@ for name, code in indices.items():
     price, change = fetch_index(code)
     lines.append(f"| {name} | {price} | {change}% |")
 
-# 写入 README.md
 with open("README.md", "w", encoding="utf-8") as f:
     f.write("\n".join(lines))
