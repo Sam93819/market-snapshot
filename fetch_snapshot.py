@@ -35,7 +35,7 @@ for name, code in indices.items():
     lines.append(f"| {name} | {price} | {pct} |")
 
 html_table = "\n".join(lines)
-verify_code = "<p>🚀 系统验证口令：我是小白龙GPT</p>"
+verify_code = "<p>🚀 系统验证口令：我是小龙GPT</p>"
 
 # 构造 HTML 页面
 final_html = f"""
