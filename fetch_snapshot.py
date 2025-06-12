@@ -40,6 +40,7 @@ for name, code in indices.items():
 
 # 将 Markdown 转为 HTML 表格（简化处理）
 html_table = "<br>".join(lines)
+verify_code = "<p>🚀 系统验证口令：我是小白龙GPT</p>"
 
 # 构建 HTML 页面内容
 final_html = f"""
