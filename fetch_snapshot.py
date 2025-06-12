@@ -1,5 +1,5 @@
 import requests
-from datetime import datetime
+from datetime import datetime, timedelta
 
 indices = {
     "上证指数": "sh000001",
@@ -58,7 +58,7 @@ final_html = f"""
 </head>
 <body>
     <h1>A股指数快照（自动更新）</h1>
-    <p>更新时间：{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}</p>
+    <p>更新时间：{(datetime.utcnow() + timedelta(hours=8)).strftime("%Y-%m-%d %H:%M:%S")}</p>
     {verify_code}
     <pre style="line-height: 1.6">{html_table}</pre>
 </body>
