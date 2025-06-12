@@ -1,6 +1,7 @@
 import requests
 from datetime import datetime
 
+# 指数代码字典
 indices = {
     "上证指数": "sh000001",
     "深证成指": "sz399001",
@@ -11,6 +12,7 @@ indices = {
     "北证50": "bj899050"
 }
 
+# 抓取函数
 def fetch_index(code):
     url = f"https://qt.gtimg.cn/q={code}"
     try:
@@ -24,7 +26,7 @@ def fetch_index(code):
     except:
         return "获取失败", "--"
 
-# 生成 Markdown
+# 生成 Markdown 行情快照
 lines = []
 lines.append("# A股指数快照（自动更新）\n")
 lines.append(f"更新时间：{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
@@ -35,5 +37,6 @@ for name, code in indices.items():
     price, change = fetch_index(code)
     lines.append(f"| {name} | {price} | {change}% |")
 
+# 写入 README.md
 with open("README.md", "w", encoding="utf-8") as f:
     f.write("\n".join(lines))
