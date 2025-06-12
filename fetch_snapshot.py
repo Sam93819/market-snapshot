@@ -35,5 +35,51 @@ for name, code in indices.items():
     print(f"{name}: {price} / {pct}")
     lines.append(f"| {name} | {price} | {pct} |")
 
-with open("README.md", "w", encoding="utf-8") as f:
-    f.write("\n".join(lines))
+from datetime import datetime
+
+# 假设你已经生成了 data 表格 markdown 形式，如 final_md
+
+# 生成 HTML 页面内容（index.html）
+final_html = f"""
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A股指数快照</title>
+    <style>
+        body {{
+            font-family: "SF Pro SC", "Segoe UI", sans-serif;
+            background-color: #f7f9fa;
+            color: #333;
+            padding: 2em;
+        }}
+        h1 {{
+            color: #005aa7;
+        }}
+        table {{
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 1em;
+        }}
+        th, td {{
+            border: 1px solid #ccc;
+            padding: 0.5em 1em;
+            text-align: center;
+        }}
+        th {{
+            background-color: #eaeaea;
+        }}
+    </style>
+</head>
+<body>
+    <h1>A股指数快照（自动更新）</h1>
+    <p>更新时间：{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}</p>
+    {final_md.replace('\n', '<br>')}
+</body>
+</html>
+"""
+
+# 写入 index.html（供 GitHub Pages 展示）
+with open("index.html", "w", encoding="utf-8") as f:
+    f.write(final_html)
