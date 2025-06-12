@@ -1,7 +1,6 @@
 import requests
 from datetime import datetime
 
-# 指数代码字典
 indices = {
     "上证指数": "sh000001",
     "深证成指": "sz399001",
@@ -12,31 +11,29 @@ indices = {
     "北证50": "bj899050"
 }
 
-# 抓取函数
 def fetch_index(code):
     url = f"https://qt.gtimg.cn/q={code}"
     try:
         res = requests.get(url, timeout=5)
         raw = res.text.split('~')
-        price = raw[3]
-        pct_chg = raw[5]
-        if not pct_chg.startswith("-"):
-            pct_chg = f"+{pct_chg}"
-        return price, pct_chg
-    except:
+        price = float(raw[3])
+        prev_close = float(raw[4])
+        pct_chg = ((price - prev_close) / prev_close) * 100
+        pct_chg_str = f"{pct_chg:+.2f}%"
+        return f"{price:.2f}", pct_chg_str
+    except Exception as e:
+        print(f"错误：{code} 抓取失败 - {e}")
         return "获取失败", "--"
 
-# 生成 Markdown 行情快照
 lines = []
 lines.append("# A股指数快照（自动更新）\n")
 lines.append(f"更新时间：{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
-lines.append("\n| 指数 | 当前点位 | 涨跌幅 |")
-lines.append("|------|-----------|--------|")
+lines.append("\n| 指数 | 当前点位 | 涨跌幅 |\n|------|-----------|--------|")
 
 for name, code in indices.items():
-    price, change = fetch_index(code)
-    lines.append(f"| {name} | {price} | {change}% |")
+    price, pct = fetch_index(code)
+    print(f"{name}: {price} / {pct}")
+    lines.append(f"| {name} | {price} | {pct} |")
 
-# 写入 README.md
 with open("README.md", "w", encoding="utf-8") as f:
     f.write("\n".join(lines))
