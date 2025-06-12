@@ -75,6 +75,7 @@ final_html = f"""
 <body>
     <h1>A股指数快照（自动更新）</h1>
     <p>更新时间：{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}</p>
+    <p>🚀 系统验证口令：我是小白龙GPT</p>
     {final_md.replace('\n', '<br>')}
 </body>
 </html>
@@ -83,6 +84,3 @@ final_html = f"""
 # 写入 index.html（供 GitHub Pages 展示）
 with open("index.html", "w", encoding="utf-8") as f:
     f.write(final_html)
-
-<p>🚀 系统验证口令：我是小白龙GPT</p>
-
